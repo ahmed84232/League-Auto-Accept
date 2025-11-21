@@ -52,11 +52,4 @@ Use at your own risk. It may violate Riot's terms depending on use.
 
 ------------------------------------------------------------------------
 
-## 📁 File Structure Example
-
-    auto_accept.py
-    README.md
-
-------------------------------------------------------------------------
-
 Enjoy automating your ready-check!
