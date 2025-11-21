@@ -1,3 +1,4 @@
+import sys
 import time
 import os
 from aiohttp import ClientSession
@@ -53,7 +54,7 @@ async def main():
                 if "GameStart" in phase_text or "InGame" in phase_text:
                     time.sleep(10)
                     print("INSIDE MATCH")
-                    return
+                    raise SystemExit
 
             async with session.get(ready_check, ssl=False, headers=headers) as response:
 
