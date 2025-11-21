@@ -34,6 +34,7 @@ with open(lockfile_location, "r") as f:
 
 ready_check = f"https://127.0.0.1:{port}/lol-matchmaking/v1/ready-check"
 accept_ready_check = f"https://127.0.0.1:{port}/lol-matchmaking/v1/ready-check/accept"
+game_flow_phase_check = f"https://127.0.0.1:{port}/lol-gameflow/v1/gameflow-phase"
 
 headers = {
     "Authorization": f"Basic {riot_token}",
@@ -46,6 +47,13 @@ async def main():
     async with ClientSession() as session:
 
         for i in range(1, 1000):
+            async with session.get(game_flow_phase_check, ssl=False, headers=headers) as phase_response:
+                phase_text = await phase_response.text()
+
+                if "GameStart" in phase_text or "InGame" in phase_text:
+                    time.sleep(10)
+                    print("INSIDE MATCH")
+                    return
 
             async with session.get(ready_check, ssl=False, headers=headers) as response:
 
@@ -63,7 +71,7 @@ async def main():
 
                     elif html['state'] == 'InProgress':
 
-                        print("MAAAAAATCHHHH FAAAAAOUUUUNNDDD!")
+                        print("Match Found")
                         await session.post(accept_ready_check, ssl=False, headers=headers)
                         print("Accept button got Accepted ya walla")
                         await asyncio.sleep(5)
@@ -71,8 +79,9 @@ async def main():
                 else:
 
                     os.system("cls")
+                    print("Current phase: " + phase_text.strip('"'))
                     print("You didn't press find match yet...")
-                    await asyncio.sleep(1)
+                    await asyncio.sleep(5)
 
 
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
