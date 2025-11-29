@@ -51,7 +51,7 @@ async def main():
             async with session.get(game_flow_phase_check, ssl=False, headers=headers) as phase_response:
                 phase_text = await phase_response.text()
 
-                if "GameStart" in phase_text or "InGame" in phase_text:
+                if "InProgress" in phase_text or "InGame" in phase_text:
                     time.sleep(10)
                     print("INSIDE MATCH")
                     raise SystemExit
