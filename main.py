@@ -50,12 +50,21 @@ async def main():
         for i in range(1, 1000):
             async with session.get(game_flow_phase_check, ssl=False, headers=headers) as phase_response:
                 phase_text = await phase_response.text()
+                print(phase_text)
 
                 if "InProgress" in phase_text or "InGame" in phase_text:
 
-                    print("INSIDE MATCH")
+                    print("Current phase = " + phase_text)
+                    print("Closing in 10 sec...")
                     time.sleep(10)
                     raise SystemExit
+
+                if "ChampSelect" in phase_text:
+
+                    os.system("cls")
+                    print("Current phase = " + phase_text)
+                    time.sleep(5)
+                    continue
 
             async with session.get(ready_check, ssl=False, headers=headers) as response:
 
