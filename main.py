@@ -77,7 +77,7 @@ async def main():
                         os.system("cls")
                         print("Match Found")
                         await session.post(accept_ready_check, ssl=False, headers=headers)
-                        print("Accept button got Accepted ya walla")
+                        print("Match got Accepted!")
                         await asyncio.sleep(5)
 
                 else:
