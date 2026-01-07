@@ -18,7 +18,7 @@ def find_lol_by_process_scan():
             install_folder = os.path.dirname(exe_path)
             lockfile = os.path.join(install_folder, "lockfile")
 
-            print(f"Found installation via process scan: {install_folder}")
+            print(f"Found installation via process scan: {install_folder} \n")
             return lockfile
 
     print("LeagueClientUx.exe process not found.")
@@ -52,8 +52,9 @@ async def main():
                 phase_text = await phase_response.text()
 
                 if "InProgress" in phase_text or "InGame" in phase_text:
-                    time.sleep(10)
+
                     print("INSIDE MATCH")
+                    time.sleep(10)
                     raise SystemExit
 
             async with session.get(ready_check, ssl=False, headers=headers) as response:
@@ -65,6 +66,7 @@ async def main():
 
                     if html['state'] == 'Invalid':
 
+                        os.system("cls")
                         print("state == "+ html['state'])
                         print("Accept is not there yet...")
                         print("Status:", response.status)
@@ -72,6 +74,7 @@ async def main():
 
                     elif html['state'] == 'InProgress':
 
+                        os.system("cls")
                         print("Match Found")
                         await session.post(accept_ready_check, ssl=False, headers=headers)
                         print("Accept button got Accepted ya walla")
