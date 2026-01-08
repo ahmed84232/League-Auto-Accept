@@ -49,20 +49,19 @@ async def main():
 
         for i in range(1, 1000):
             async with session.get(game_flow_phase_check, ssl=False, headers=headers) as phase_response:
+
                 phase_text = await phase_response.text()
-                print(phase_text)
+                os.system("cls")
+                print("Current phase: " + phase_text.strip('"') + "\n")
 
                 if "InProgress" in phase_text or "InGame" in phase_text:
 
-                    print("Current phase = " + phase_text)
                     print("Closing in 10 sec...")
                     time.sleep(10)
                     raise SystemExit
 
                 if "ChampSelect" in phase_text:
 
-                    os.system("cls")
-                    print("Current phase = " + phase_text)
                     time.sleep(5)
                     continue
 
@@ -75,15 +74,11 @@ async def main():
 
                     if html['state'] == 'Invalid':
 
-                        os.system("cls")
-                        print("state == "+ html['state'])
-                        print("Accept is not there yet...")
-                        print("Status:", response.status)
+                        print("No Match found yet")
                         await asyncio.sleep(2)
 
                     elif html['state'] == 'InProgress':
 
-                        os.system("cls")
                         print("Match Found")
                         await session.post(accept_ready_check, ssl=False, headers=headers)
                         print("Match got Accepted!")
@@ -91,8 +86,6 @@ async def main():
 
                 else:
 
-                    os.system("cls")
-                    print("Current phase: " + phase_text.strip('"'))
                     print("You didn't press find match yet...")
                     await asyncio.sleep(5)
 
